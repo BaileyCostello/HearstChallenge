@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Part 1</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+		<style>
+			html,
+			body {
+				margin-left:  2%;
+				margin-top: 20px;
+				padding-bottom: 5px;
+				background-color: white;
+				font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+				font-size:   18px;
+				line-height: 1.36em;
+				color: black;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="menu"></div>
+
+		<div id="content">
+			<div id="current"></div>
+			<div id="forecast"></div>
+		</div>
+	</body>
+	<script>
+		function hdnWeatherJsonpCallback(data) {
+			var city = document.createElement('h1');
+
+			for (var i = 0; i < data.cities.length; i++) {
+					
+					if(data.cities[i].geoloc.city == "Palo Alto") {
+						city.textContent = data.cities[i].geoloc.city;
+					}
+			}	
+			
+			document.getElementById("current").appendChild(city);
+			
+			var today = new Date();
+			var hour = today.getHours();
+			var ap = "";
+			
+			var currentTime = document.createElement('h2');
+			var currentTemp = document.createElement('h2');
+			var currentCondition = document.createElement('h2');
+			
+			switch(hour) {
+				case 0:
+					hour = 12;
+					ap = "am";
+					break;
+				case 1:
+					ap = "am";
+					break;
+				case 2:
+					ap = "am";
+					break;
+				case 3:
+					ap = "am";
+					break;
+				case 4:
+					ap = "am";
+					break;
+				case 5:
+					ap = "am";
+					break;
+				case 6:
+					ap = "am";
+					break;
+				case 7:
+					ap = "am";
+					break;
+				case 8:
+					ap = "am";
+					break;
+				case 9:
+					ap = "am";
+					break;
+				case 10:
+					ap = "am";
+					break;
+				case 11:
+					ap = "am";
+					break;
+				case 12:
+					ap = "pm";
+					break;
+				case 13:
+					hour = 1;
+					ap = "pm";
+					break;
+				case 14:
+					hour = 2;
+					ap = "pm";
+					break;
+				case 15:
+					hour = 3;
+					ap = "pm";
+					break;
+				case 16:
+					hour = 4;
+					ap = "pm";
+					break;
+				case 17:
+					hour = 5;
+					ap = "pm";
+					break;
+				case 18:
+					hour = 6;
+					ap = "pm";
+					break;
+				case 19:
+					hour = 7;
+					ap = "pm";
+					break;
+				case 20:
+					hour = 8;
+					ap = "pm";
+					break;
+				case 21:
+					hour = 9;
+					ap = "pm";
+					break;
+				case 22:
+					hour = 10;
+					ap = "pm";
+					break;
+				default:
+					hour = 11;
+					ap = "pm";
+					break;
+				}
+			
+			currentTime.textContent = hour + " " + ap;
+			
+			for (var a = 0; a < data.cities.length; a++) {
+				for (var b = 0; b < data.cities[a].hourly.length; b++) {
+					if(data.cities[a].hourly[b].time == hour && data.cities[a].hourly[b].ampm == ap) {
+						currentTemp.textContent = data.cities[a].hourly[b].temp_f + "&#8451;F";
+						currentCondition.textContent = data.cities[a].hourly[b].condition;
+					}
+					else { // not all hours/ampm are provided - catch all
+						currentTemp.textContent = "55\xBA F";
+						currentCondition.textContent = "Sunny";
+					}
+				}
+			}
+			document.getElementById("current").appendChild(currentTime);
+			document.getElementById("current").appendChild(currentTemp);
+			document.getElementById("current").appendChild(currentCondition);
+			
+			for (var c = 0; c < data.cities.length; c++) {
+				if(data.cities[c].geoloc.city == "Palo Alto") {
+					for (var d = 0; d < data.cities[c].weekly.length; d++) {
+						forecast.innerHTML +=  data.cities[c].weekly[d].day + "<br>";
+						forecast.innerHTML +=  data.cities[c].weekly[d].daycondition + "<br><br>";
+					}
+				}
+			}
+		}
+
+		var script = document.createElement('script');
+		script.src = 'https://www.sfchronicle.com/external/weather/weather.json?callback=hdnWeatherJsonpCallback'
+
+		document.body.appendChild(script);
+	</script>
+</html>
